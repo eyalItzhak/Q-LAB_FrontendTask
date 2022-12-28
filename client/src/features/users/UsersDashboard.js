@@ -19,6 +19,11 @@ export default observer(function UsersDashboard() {
   ];
 
   const usersData = userStore.userList;
+  // if (usersData){
+  //   console.log("render dashboard")
+  //   console.log(usersData[0].name.first)
+  // }
+    
 
   useEffect(() => {
     if (!usersData) {
@@ -42,8 +47,9 @@ export default observer(function UsersDashboard() {
 
       <Table.Body>
         {usersData.map((user, index) => (
-          <UserTabelItem key={index} user={user} userId={index + 1} />
+          <UserTabelItem key={user.login.sha256} user={user} userId={index} />
         ))}
+    
       </Table.Body>
     </Table>
   );
