@@ -19,6 +19,11 @@ const deleteMe = (event) =>{
   userStore.deleteUser(props.userId);
 };
 
+const updateMe = (event) =>{
+  const parmasToUpdate = [firstName,lastName,myEmail,myPhone] //[0] firstName ,[1] lastName ,[2] myEmail, [3] myPhone
+  userStore.updateUser(props.userId,parmasToUpdate);
+};
+
 
 //name.first
   return (
@@ -29,7 +34,7 @@ const deleteMe = (event) =>{
     <Table.Cell><DoubleClickLabel input={myEmail} setInput={setMyEmail}/></Table.Cell>
     <Table.Cell>{<DoubleClickLabel input={myPhone} setInput={setMyPhone}/>}</Table.Cell>
     <Table.Cell>{gender}</Table.Cell>
-    <Table.Cell> <Button inverted color='green'>Update</Button></Table.Cell>
+    <Table.Cell> <Button inverted color='green' onClick={updateMe}>Update</Button></Table.Cell>
     <Table.Cell> <Button inverted color='red' onClick={deleteMe}>Delete</Button></Table.Cell>
   </Table.Row>
   );

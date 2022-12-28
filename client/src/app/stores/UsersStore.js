@@ -5,7 +5,9 @@ import agent from "../api/agent";
 // Model the application state.
 export default class UserStore {
   userList = null;
+
   deleteList = null;
+  updateUsersList = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -14,24 +16,47 @@ export default class UserStore {
     } catch (err) {
       this.deleteList = [];
     }
-    console.log(this.deleteList);
-  }
 
-  async loadUserList() {
-    const users = await agent.getUsers();
-
-    if (this.deleteList.length > 0) {
-      const filterUser = users.filter(
-        (user) => this.deleteList.includes(user.login.uuid + "") !== true
+    try {
+      this.updateUsersList = JSON.parse(
+        localStorage.getItem("usersUpdateList").split(",")
       );
-      this.setUserList(filterUser);
-    } else {
-      this.setUserList(users);
+    } catch (err) {
+      this.updateUsersList = [];
     }
   }
 
+  async loadUserList() {
+    let users = await agent.getUsers();
+    if (this.deleteList.length > 0) {
+      users = users.filter(
+        (user) => this.deleteList.includes(user.login.uuid + "") !== true
+      );
+    }
+
+    if (this.updateUsersList.length > 0) {
+      this.updateUsersList.forEach((modfie) => {
+        const userIndex = users.findIndex(
+          (user) => user.login.uuid + "" === modfie.uuid + ""
+        );
+        console.log(userIndex);
+        if (userIndex !== -1) {
+          users[userIndex].name.first = modfie.first;
+          users[userIndex].name.last = modfie.last;
+          users[userIndex].email = modfie.email;
+          users[userIndex].phone = modfie.myPhone;
+          
+        }
+      });
+    }
+   
+    this.setUserList(users);
+  }
+
   setUserList = (users) => {
+    console.log(users[4].name.first)
     this.userList = users;
+    console.log(this.userList[4].name.first)
   };
 
   deleteUser = (index) => {
@@ -40,7 +65,36 @@ export default class UserStore {
       const user_uuid = this.userList[index].login.uuid;
       this.deleteList.push("" + user_uuid + "");
       localStorage.setItem("usersDeleteList", this.deleteList);
-      this.userList.splice(index, 1); // 2nd parameter means remove one item only
+      this.userList.splice(index, 1);
+    }
+  };
+
+  updateUser = (index, parmas) => {
+    //[0] firstName ,[1] lastName ,[2] myEmail, [3] myPhone
+    if (index > -1) {
+      const user_uuid = this.userList[index].login.uuid; //key
+      const updateinfo = {
+        //update selcted user
+        uuid: user_uuid,
+        first: parmas[0],
+        last: parmas[1],
+        email: parmas[2],
+        myPhone: parmas[3],
+      };
+
+      let inx_userUpdateList = this.updateUsersList.findIndex(
+        (user) => user.uuid + "" === updateinfo.uuid
+      );
+
+      if (inx_userUpdateList !== -1) {
+        this.updateUsersList.splice(inx_userUpdateList, 1);
+      }
+      this.updateUsersList.push(updateinfo);
+
+      localStorage.setItem(
+        "usersUpdateList",
+        JSON.stringify(this.updateUsersList)
+      );
     }
   };
 }
