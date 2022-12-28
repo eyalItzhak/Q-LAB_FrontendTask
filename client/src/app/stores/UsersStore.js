@@ -4,12 +4,15 @@ import agent from "../api/agent";
 
 // Model the application state.
 export default class UserStore {
-  userList = null;
+  userList = null; //all active user
 
-  deleteList = null;
-  updateUsersList = null;
+  deleteList = null; //list of index of deleted users
+  updateUsersList = null; //info about updated users
+
+  pageSize = 10 ;
 
   constructor() {
+
     makeAutoObservable(this);
     try {
       this.deleteList = localStorage.getItem("usersDeleteList").split(",");
@@ -24,10 +27,12 @@ export default class UserStore {
     } catch (err) {
       this.updateUsersList = [];
     }
+
   }
 
   async loadUserList() {
-    let users = await agent.getUsers();
+    let users = await agent.getUsers(this.pageSize + this.deleteList.length );
+
     if (this.deleteList.length > 0) {
       users = users.filter(
         (user) => this.deleteList.includes(user.login.uuid + "") !== true
@@ -49,7 +54,7 @@ export default class UserStore {
         }
       });
     }
-   
+    users = users.slice(users);
     this.setUserList(users);
   }
 
@@ -58,6 +63,11 @@ export default class UserStore {
     this.userList = users;
     console.log(this.userList[4].name.first)
   };
+
+  setPageSize = (pageSize) =>{
+    this.pageSize = pageSize;
+    this.loadUserList();
+  }
 
   deleteUser = (index) => {
     if (index > -1) {

@@ -1,10 +1,10 @@
 import axios  from 'axios';
 
-axios.defaults.baseURL = "https://randomuser.me/api/?page=1&results=10&seed=newseed"
+axios.defaults.baseURL = "https://randomuser.me/api/"
 
 const responseBody = (response) => response.data.results;
 
-const  getUsers =async() => await axios.get().then(responseBody);
+const  getUsers =async(pagesize) => await axios.get(`?page=1&results=${pagesize}&seed=newseed`,{}).then(responseBody);
 
 const agent = {
     getUsers

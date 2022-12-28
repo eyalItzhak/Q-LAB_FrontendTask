@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Table } from "semantic-ui-react";
+import { Table, Menu, Dropdown } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import { useStore } from "../../app/stores/store";
 import UserTabelItem from "./UserTabelItem";
@@ -18,18 +18,24 @@ export default observer(function UsersDashboard() {
     "Delete",
   ];
 
+  const options = [
+    { key: 1, text: "10", value: 10 },
+    { key: 2, text: "20", value: 20 },
+    { key: 3, text: "50", value: 50 },
+    { key: 4, text: "100", value: 100 },
+  ];
+
+  const handlePageSize = (e, data) => {
+    userStore.setPageSize(data.value);
+  }
+
   const usersData = userStore.userList;
-  // if (usersData){
-  //   console.log("render dashboard")
-  //   console.log(usersData[0].name.first)
-  // }
-    
 
   useEffect(() => {
     if (!usersData) {
       userStore.loadUserList();
     }
-  }, [userStore,usersData]);
+  }, [userStore, usersData]);
 
   if (!usersData) {
     return <>loading</>;
@@ -37,6 +43,12 @@ export default observer(function UsersDashboard() {
 
   return (
     <Table celled>
+      <Table.Header>
+        <Table.Row>
+       
+        </Table.Row>
+      </Table.Header>
+
       <Table.Header>
         <Table.Row>
           {categories.map((opt) => (
@@ -47,10 +59,23 @@ export default observer(function UsersDashboard() {
 
       <Table.Body>
         {usersData.map((user, index) => (
-          <UserTabelItem key={user.login.sha256} user={user} userId={index} />
+          <UserTabelItem key={user.login.uuid} user={user} userId={index} />
         ))}
-    
       </Table.Body>
+
+      <Table.Footer>
+        <Table.Row>
+          <Table.HeaderCell colSpan="8">
+            <Menu floated="right" pagination>
+              <Menu.Item>
+               <Dropdown text='Page Size' options={options} simple item onChange={handlePageSize} />
+               </Menu.Item>
+            </Menu>
+          </Table.HeaderCell>
+        </Table.Row>
+      </Table.Footer>
+
+
     </Table>
   );
 });
