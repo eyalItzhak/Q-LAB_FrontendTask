@@ -1,12 +1,13 @@
 import React ,{useState} from "react";
-import { Table ,Button} from 'semantic-ui-react'
+import { Button,Table } from 'semantic-ui-react'
 import DoubleClickLabel from "../../app/common/DoubleClickLabel";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../app/stores/store";
+import {Link} from 'react-router-dom';
 
 export default observer(function UserTabelItem(props) {
 
-const {name,email,phone,gender} = props.user  
+const {name,email,phone,gender,login} = props.user  
 
 const [firstName,setfirstName] = useState(name.first);
 const [lastName,setLastName] = useState(name.last);
@@ -28,7 +29,7 @@ const updateMe = (event) =>{
 //name.first
   return (
   <Table.Row>
-    <Table.Cell>{props.userId +1}</Table.Cell>
+    <Table.Cell textAlign="center">{<Button as={Link} to={`/users/${login.uuid} `}>{props.userId +1}</Button>}</Table.Cell>
     <Table.Cell><DoubleClickLabel input={firstName} setInput={setfirstName}/> </Table.Cell>
     <Table.Cell><DoubleClickLabel input={lastName} setInput={setLastName}/></Table.Cell>
     <Table.Cell><DoubleClickLabel input={myEmail} setInput={setMyEmail}/></Table.Cell>

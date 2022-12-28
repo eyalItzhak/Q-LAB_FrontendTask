@@ -9,10 +9,9 @@ export default class UserStore {
   deleteList = null; //list of index of deleted users
   updateUsersList = null; //info about updated users
 
-  pageSize = 10 ;
+  pageSize = 10;
 
   constructor() {
-
     makeAutoObservable(this);
     try {
       this.deleteList = localStorage.getItem("usersDeleteList").split(",");
@@ -27,11 +26,10 @@ export default class UserStore {
     } catch (err) {
       this.updateUsersList = [];
     }
-
   }
 
   async loadUserList() {
-    let users = await agent.getUsers(this.pageSize + this.deleteList.length );
+    let users = await agent.getUsers(this.pageSize + this.deleteList.length);
 
     if (this.deleteList.length > 0) {
       users = users.filter(
@@ -50,7 +48,6 @@ export default class UserStore {
           users[userIndex].name.last = modfie.last;
           users[userIndex].email = modfie.email;
           users[userIndex].phone = modfie.myPhone;
-          
         }
       });
     }
@@ -59,15 +56,15 @@ export default class UserStore {
   }
 
   setUserList = (users) => {
-    console.log(users[4].name.first)
+    console.log(users[4].name.first);
     this.userList = users;
-    console.log(this.userList[4].name.first)
+    console.log(this.userList[4].name.first);
   };
 
-  setPageSize = (pageSize) =>{
+  setPageSize = (pageSize) => {
     this.pageSize = pageSize;
     this.loadUserList();
-  }
+  };
 
   deleteUser = (index) => {
     if (index > -1) {
@@ -107,4 +104,12 @@ export default class UserStore {
       );
     }
   };
+
+  getUserbyUuid(uuid) {
+    try {
+      return this.userList.find((user) => user.login.uuid === uuid);
+    } catch (err) {
+      return null; //if user not in the list return null;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Table, Menu, Dropdown } from "semantic-ui-react";
+import { Table, Menu, Dropdown,Grid } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import { useStore } from "../../app/stores/store";
 import UserTabelItem from "./UserTabelItem";
@@ -42,7 +42,13 @@ export default observer(function UsersDashboard() {
   }
 
   return (
-    <Table celled>
+
+    <Grid columns={3}>
+    <Grid.Row width={1}/>
+    <Grid.Row width={2}>
+    <Grid.Column width={1} />
+    <Grid.Column width={14}>
+    <Table celled inverted >
       <Table.Header>
         <Table.Row></Table.Row>
       </Table.Header>
@@ -79,5 +85,10 @@ export default observer(function UsersDashboard() {
         </Table.Row>
       </Table.Footer>
     </Table>
+
+    </Grid.Column>
+        <Grid.Column width={1} />
+        </Grid.Row>
+      </Grid>
   );
 });
