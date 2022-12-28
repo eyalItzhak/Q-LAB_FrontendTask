@@ -27,7 +27,7 @@ export default observer(function UsersDashboard() {
 
   const handlePageSize = (e, data) => {
     userStore.setPageSize(data.value);
-  }
+  };
 
   const usersData = userStore.userList;
 
@@ -44,9 +44,7 @@ export default observer(function UsersDashboard() {
   return (
     <Table celled>
       <Table.Header>
-        <Table.Row>
-       
-        </Table.Row>
+        <Table.Row></Table.Row>
       </Table.Header>
 
       <Table.Header>
@@ -68,14 +66,18 @@ export default observer(function UsersDashboard() {
           <Table.HeaderCell colSpan="8">
             <Menu floated="right" pagination>
               <Menu.Item>
-               <Dropdown text='Page Size' options={options} simple item onChange={handlePageSize} />
-               </Menu.Item>
+                <Dropdown
+                  text="Page Size"
+                  options={options}
+                  simple
+                  item
+                  onChange={handlePageSize}
+                />
+              </Menu.Item>
             </Menu>
           </Table.HeaderCell>
         </Table.Row>
       </Table.Footer>
-
-
     </Table>
   );
 });
