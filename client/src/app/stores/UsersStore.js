@@ -10,6 +10,8 @@ export default class UserStore {
 
   pageSize=10; //Page size of the table
 
+
+
   constructor() {
     makeAutoObservable(this);
 
@@ -75,6 +77,8 @@ export default class UserStore {
     localStorage.setItem("lastPageSize", this.pageSize);
   };
 
+
+
   // delete User from tabel
   deleteUser = (index) => {
     if (index > -1) {
@@ -112,6 +116,7 @@ export default class UserStore {
         "usersUpdateList",
         JSON.stringify(this.updateUsersList)
       );
+
     }
   };
 
