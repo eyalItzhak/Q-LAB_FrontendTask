@@ -5,6 +5,7 @@ function DoubleClickLabel(props) {
 const [toggle, setToggle] = useState(true);
 
   function toggleInput() {
+      console.log("toggle")
       setToggle(!toggle);
   }
 
@@ -16,7 +17,7 @@ const [toggle, setToggle] = useState(true);
   return(
     <>
        {toggle ? (<p onDoubleClick={toggleInput}>{props.input}</p>):(
-       <input onDoubleClick={toggleInput} type="text" value={props.input} onChange={handleNameChange}/>)}
+       <input onDoubleClick={toggleInput} type="text" value={props.input} onChange={handleNameChange} onBlur ={toggleInput}/>)}
     </>
   )
 }
