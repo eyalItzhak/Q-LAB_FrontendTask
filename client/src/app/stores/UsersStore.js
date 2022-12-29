@@ -42,7 +42,7 @@ export default class UserStore {
         const userIndex = users.findIndex(
           (user) => user.login.uuid + "" === modfie.uuid + ""
         );
-        console.log(userIndex);
+
         if (userIndex !== -1) {
           users[userIndex].name.first = modfie.first;
           users[userIndex].name.last = modfie.last;
@@ -56,9 +56,7 @@ export default class UserStore {
   }
 
   setUserList = (users) => {
-    console.log(users[4].name.first);
     this.userList = users;
-    console.log(this.userList[4].name.first);
   };
 
   setPageSize = (pageSize) => {

@@ -1,58 +1,37 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
-import male_active from  "../../app/image/Male_button.png"
-import female_active from "../../app/image/Female_button.png"
-import profilePicture from "../../app/image/Profile_Picture.png"
 import GoogleMapService from "./gooleMapService/GoogleMapService";
+import ProfileGender from "./ProfileGender";
+import ProfilePicture from "./ProfilePicture";
+import ProfileMainData from "./ProfileMainData";
 
-export default function ProfileDetails() {
-  const f_name = "eyal";
-  const l_name = "Itzhak";
-  const number = "10231342";
-  const email = "asdasd@asd.com";
+
+export default function ProfileDetails(props) {
+
+  const f_name = props.userDetails.name.first;
+  const l_name = props.userDetails.name.last;
+  const number = props.userDetails.phone;
+  const email =  props.userDetails.email;
+  const myLat = parseFloat(props.userDetails.location.coordinates.latitude)
+  const mylng = parseFloat(props.userDetails.location.coordinates.longitude)
+  const gender = props.userDetails.gender
+
 
   return (
     <Grid>
       <Grid.Row>
-        <Grid.Column width={7}>
-          <h3>profile pictur</h3>
-          <img src={profilePicture} alt="Logo" />
-        </Grid.Column>
+        <ProfilePicture/>
       </Grid.Row>
-      <Grid.Row>
-        <Grid.Column width={7}>
-          <h3>First name</h3>
-          <input type="text" className="sort" value={"asd"} onChange={()=>(console.log("somting"))} />
-        </Grid.Column>
-        <Grid.Column width={3}>
-          <h3>Last Name</h3>
-          <input type="text" className="sort" value={"  asd"} onChange={()=>(console.log("somting"))} />
-        </Grid.Column>
+        <ProfileMainData f_name={f_name} l_name={l_name} number={number} email={email} mode={props.mode} />
+      <Grid.Row >
+      <ProfileGender gender={gender}/>
       </Grid.Row>
-
-      <Grid.Row>
-        <Grid.Column width={7}>
-          <h3>email</h3>
-          <input type="text" className="long" value={"  asd"} onChange={()=>(console.log("somting"))} />
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row>
-        <Grid.Column width={7}>
-          <h3>phone</h3>
-          <input type="text" className="long" value={"  asd"} onChange={()=>(console.log("somting"))} />
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row>
-            <Grid.Column width={7}>
-                <div>gender</div>
-                <img src={male_active} alt="Logo" />
-                <img src={female_active} alt="Logo" />
-            </Grid.Column>
-      </Grid.Row>
-       <Grid.Row><GoogleMapService/> </Grid.Row> 
-        
-
+       <Grid.Row ><GoogleMapService myLat={myLat} mylng={mylng}/> </Grid.Row> 
     </Grid>
   );
+
+  
+
 }
+
