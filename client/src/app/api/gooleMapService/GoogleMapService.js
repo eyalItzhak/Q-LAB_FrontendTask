@@ -18,7 +18,7 @@ function MyComponent(props) {
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "you api key",
+    googleMapsApiKey: "please enter your API key here",
   });
 
 

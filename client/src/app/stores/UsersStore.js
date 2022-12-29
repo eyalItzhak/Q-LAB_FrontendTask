@@ -11,17 +11,14 @@ export default class UserStore {
   pageSize=10; //Page size of the table
 
 
-
   constructor() {
     makeAutoObservable(this);
-
     //load or init deleted/modify users from localStorage and update store
     try {
       this.deleteList = localStorage.getItem("usersDeleteList").split(",");
     } catch (err) {
       console.log("no usersDeleteList saved id localStorage");
     }
-
 
     try {
       this.updateUsersList = JSON.parse(

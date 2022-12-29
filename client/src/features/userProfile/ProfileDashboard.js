@@ -3,7 +3,7 @@ import "semantic-ui-css/semantic.min.css";
 import { useStore } from "../../app/stores/store";
 import { useParams } from "react-router-dom";
 import useWindowDimensions from "../../app/common/useWindowDimensions";
-import WideScreen from "./WideScreen";
+import PcScreen from "./PcScreen";
 import TabletScreen from "./TabletScreen";
 import MobileScreen from "./MobileScreen.js";
 import { observer } from "mobx-react-lite";
@@ -36,7 +36,7 @@ export default observer(function UsersDashboard() {
     return <div>User Store loading</div>;
   }
 
-  if (width >= 768) return <WideScreen userInfo={userInfo} />;
+  if (width >= 768) return <PcScreen userInfo={userInfo} />;
 
   if (width <= 425) return <MobileScreen userInfo={userInfo} />;
 

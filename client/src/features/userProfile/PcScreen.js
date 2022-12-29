@@ -5,7 +5,7 @@ import "./profileStyle.css";
 import ProfileDetails from "./ProfileDetails";
 import logo from "../../app/image/Logo.png";
 
-export default function WideScreen(props) {
+export default function PcScreen(props) {
 const userInfo = props.userInfo;
 
   return (

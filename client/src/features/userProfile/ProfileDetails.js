@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
-import GoogleMapService from "./gooleMapService/GoogleMapService";
+import GoogleMapService from "../../app/api/gooleMapService/GoogleMapService";
 import ProfileGender from "./ProfileGender";
 import ProfilePicture from "./ProfilePicture";
 import ProfileMainData from "./ProfileMainData";

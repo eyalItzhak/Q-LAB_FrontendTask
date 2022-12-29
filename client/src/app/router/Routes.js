@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../../App"
+import App from "../layout/App"
 import UsersDashboard from "../../features/users/UsersDashboard";
 import ProfileDashboard from "../../features/userProfile/ProfileDashboard"
 
