@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Table, Menu, Dropdown,Grid } from "semantic-ui-react";
+import { Table, Dropdown, Grid, Menu } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import { useStore } from "../../app/stores/store";
 import UserTabelItem from "./UserTabelItem";
@@ -32,7 +32,7 @@ export default observer(function UsersDashboard() {
   const usersData = userStore.userList;
 
   useEffect(() => {
-    if (!usersData) {
+    if (usersData.length === 0) {
       userStore.loadUserList();
     }
   }, [userStore, usersData]);
@@ -42,53 +42,50 @@ export default observer(function UsersDashboard() {
   }
 
   return (
-
     <Grid columns={3}>
-    <Grid.Row width={1}/>
-    <Grid.Row width={2}>
-    <Grid.Column width={1} />
-    <Grid.Column width={14}>
-    <Table celled inverted >
-      <Table.Header>
-        <Table.Row></Table.Row>
-      </Table.Header>
-
-      <Table.Header>
-        <Table.Row>
-          {categories.map((opt) => (
-            <Table.HeaderCell key={opt}>{opt}</Table.HeaderCell>
-          ))}
-        </Table.Row>
-      </Table.Header>
-
-      <Table.Body>
-        {usersData.map((user, index) => (
-          <UserTabelItem key={user.login.uuid} user={user} userId={index} />
-        ))}
-      </Table.Body>
-
-      <Table.Footer>
-        <Table.Row>
-          <Table.HeaderCell colSpan="8">
-            <Menu floated="right" pagination>
-              <Menu.Item>
-                <Dropdown
-                  text="Page Size"
-                  options={options}
-                  simple
-                  item
-                  onChange={handlePageSize}
-                />
-              </Menu.Item>
-            </Menu>
-          </Table.HeaderCell>
-        </Table.Row>
-      </Table.Footer>
-    </Table>
-
-    </Grid.Column>
+      <Grid.Row width={1} />
+      <Grid.Row width={2}>
         <Grid.Column width={1} />
-        </Grid.Row>
-      </Grid>
+        <Grid.Column width={14}>
+          <Table celled inverted>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell colSpan="8">
+                  <Menu floated="right" pagination>
+                    <Dropdown
+                      text={userStore.pageSize.toString()}
+                      options={options}
+                      simple
+                      item
+                      onChange={handlePageSize}
+                    />
+                  </Menu>
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Header>
+              <Table.Row>
+                {categories.map((opt) => (
+                  <Table.HeaderCell key={opt}>{opt}</Table.HeaderCell>
+                ))}
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              {usersData.map((user, index) => (
+                <UserTabelItem
+                  key={user.login.uuid}
+                  user={user}
+                  userId={index}
+                />
+              ))}
+            </Table.Body>
+
+          </Table>
+        </Grid.Column>
+        <Grid.Column width={1} />
+      </Grid.Row>
+    </Grid>
   );
 });

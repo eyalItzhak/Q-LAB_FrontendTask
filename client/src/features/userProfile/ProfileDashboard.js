@@ -6,8 +6,9 @@ import useWindowDimensions from "../../app/common/useWindowDimensions";
 import WideScreen from "./WideScreen";
 import TabletScreen from "./TabletScreen";
 import MobileScreen from "./MobileScreen.js";
+import { observer } from "mobx-react-lite";
 
-export default function UsersDashboard() {
+export default observer(function UsersDashboard() {
   const { userStore } = useStore();
   const { uuid } = useParams();
   const [userInfo, setUserInfo] = useState(null);
@@ -15,15 +16,21 @@ export default function UsersDashboard() {
 
   useEffect(() => {
     setUserInfo(userStore.getUserbyUuid(uuid));
-  }, [setUserInfo, uuid, userStore]);
+  }, [setUserInfo, uuid, userStore.userList,userStore]);
+
+
+  if (!userInfo && userStore.userList.length >= 1) {
+    return <h1>user not found!</h1>;
+  }  
 
   if (!userInfo) {
-    return <h1>user not found!</h1>;
+      userStore.loadUserList();
+      return <div>User Store loading</div>;
   }
-  console.log(width)
-  if (width >= 768) return (<WideScreen userInfo={userInfo} />);
 
-  if (width <= 425) return (<MobileScreen userInfo={userInfo} />);
+  if (width >= 768) return <WideScreen userInfo={userInfo} />;
 
-  return (<TabletScreen userInfo={userInfo} />);
-}
+  if (width <= 425) return <MobileScreen userInfo={userInfo} />;
+
+  return <TabletScreen userInfo={userInfo} />;
+});
